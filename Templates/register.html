@@ -1,0 +1,70 @@
+{% extends 'outline.html' %}
+{% load static %}
+{% block body %}
+  <section class="row">
+    <div class="d-flex justify-content-around align-items-center col-lg-6">
+      <img src={% static 'img/ralkz_logo.png' %} class="img-thumbnail w-75 bg-body m-0 p-0 border-0 mt-5 mt-md-3 mt-lg-0" style="mix-blend-mode: color-dodge; opacity: 0.4" alt="" />
+    </div>
+
+    <div class="d-flex justify-content-center col-lg-6 mt-lg-5">
+      <form class="w-auto bg-body d-flex flex-column" method="POST" action="/auth/register/">
+        {% csrf_token %}
+        <div class="border border-end-0 border-bottom-0 rounded-bottom-0 rounded mb-3 shadow-lg p-4">
+          <div class="mb-3">
+            <label for="username" class="form-label"><i class="bi bi-person"></i>&nbsp;&nbsp;Username</label>
+            <div class="input-group">
+              <span class="border p-1 rounded-start">@</span>
+              <input type="text" value="{{ data.username }}" class="form-control rounded-end border-start-0" placeholder="e.g: strip_edz_24" id="username" name="username" />
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="password1" class="form-label"><i class="bi bi-key"></i>&nbsp;&nbsp;Password</label>
+            <div class="input-group">
+              <input type="password" class="form-control rounded-start border-end-0" id="password1" name="password" />
+              <button class="bi bi-eye border p-1 rounded-end bg-body"></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="border border-start-0 border-top-0 rounded rounded-top-0 mb-5 shadow-lg p-4 z-1">
+          <div class="mb-3">
+            <label for="fullname" class="form-label">Name</label>
+            <input type="text" value="{{ data.full_name }}" class="form-control" id="fullname" name="full_name" />
+          </div>
+
+          <div class="mb-3">
+            <label for="phno" class="form-label"><i class="bi bi-telephone"></i> &nbsp;&nbsp;Phone Number</label>
+            <div class="input-group">
+              <span class="border p-1 rounded-start">+91</span>
+              <input type="text" value="{{ data.phno }}" class="form-control rounded-end me-2" id="phno" name="phno" />
+              <i class="bi bi-check2 border bg-primary p-1 d-none"></i>
+              <button type="submit" class="btn btn-secondary rounded">verify</button>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label"><i class="bi bi-envelope"></i> &nbsp;&nbsp;Email address</label>
+            <div class="input-group">
+              <input type="text" value="{{ data.email }}" class="form-control rounded-start" id="email" name="email" aria-describedby="emailHelp" />
+              <span class="border p-1 rounded-end me-2">@gmail.com</span>
+              <i class="bi bi-check2 border bg-primary p-1 d-none"></i>
+              <button type="submit" class="btn btn-secondary rounded">verify</button>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="address" class="form-label"><i class="bi bi-geo-alt"></i>&nbsp;&nbsp;Address</label>
+            <input type="text" value="{{ data.address }}" class="form-control" id="address" name="address" />
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" name="privacy_policy" {% if data.privacy_policy == 'on' %} value="{{ data.privacy_policy }} {% endif %}" class="form-check-input" id="accept" />
+            <label class="form-check-label" for="accept">I hearby accept all <a href="#">privacy_policies</a> defined by RALKZ</label>
+          </div>
+        </div>
+
+        <button class="btn btn-primary w-25 align-self-center">Register</button>
+      </form>
+    </div>
+  </section>
+{% endblock %}

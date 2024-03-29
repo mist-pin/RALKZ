@@ -1,0 +1,79 @@
+:root{
+    --primary:#1e4f4f;
+    --secondary:#E3651D;
+    --light:#93B1A6;
+    --dark:#020a0e;
+    --shadow:#393646;
+}
+
+
+/* navbar links */
+.page-link-list li a {
+    display: inline-block;
+    position: relative;
+}
+.page-link-list li a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--light);
+    transform-origin: bottom center;
+    transition: transform 0.25s ease-out;
+}
+.page-link-list li a:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom center;
+}
+
+
+/* navbar login page for large display */
+.login-signup ,.login-signup-popup{
+    background:linear-gradient(var(--light),var(--light),var(--shadow));
+    color: #020a0e;
+    font-weight: bolder;
+    padding: 5px;
+    text-decoration: none;
+    box-sizing: border-box;
+    width: 80px;
+    font-size: 14pt;
+}
+.login-signup::before {
+    content: 'Sign in';
+    animation: login-signup-text-change 4s ease-in-out 0s alternate;
+    animation-iteration-count: infinite;
+}
+.login-signup-popup {
+    display: none;
+    position: absolute;
+    transform: translate(0%,100%);
+}
+.login-signup-holder{
+    display: flex;
+}
+.login-signup-holder:hover .login-signup::before {
+    animation: none;
+    content: 'Sign in';
+}
+.login-signup-holder:hover .login-signup-popup {
+    display: block;
+}
+
+
+/* animations */
+@keyframes login-signup-text-change {
+    0% {
+        content: 'Sign in';
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        content: 'Sign up';
+    }
+}

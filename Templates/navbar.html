@@ -1,0 +1,88 @@
+{% load static %} {% block pre_links %}
+<link rel="stylesheet" href="{% static 'css/navbar.css'%}" />
+{% endblock pre_links %} {% block navabar %}
+
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#"
+      ><img
+        src= {% static 'img/ralkz_logo.png' %}
+        class="m-0 p-0"
+        style="width: 70px"
+        alt=""
+    /></a>
+    <button class="btn btn-outline-light d-lg-none" type="submit">
+      Need a website?
+    </button>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div
+      class="collapse navbar-collapse text-center"
+      id="navbarSupportedContent"
+    >
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 page-link-list">
+        <li class="nav-item">
+          <a class="nav-link {% if '/' == request.path %} active rounded-3 border border-bottom-0 rounded-bottom-0 border-top-0 rounded-top-0  {% endif %}" href="\">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if 'service' in request.path %} active rounded-3 border border-bottom-0 rounded-bottom-0 border-top-0 rounded-top-0  {% endif %}" href="/"> Services </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if 'about' in request.path %} active rounded-3 border border-bottom-0 rounded-bottom-0 border-top-0 rounded-top-0  {% endif %}" href="/" aria-disabled="true">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if 'faq' in request.path %} active rounded-3 border border-bottom-0 rounded-bottom-0 border-top-0 rounded-top-0  {% endif %}" href="/faq" aria-disabled="true">FAQ</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if 'orders' in request.path %} active rounded-3 border border-bottom-0 rounded-bottom-0 border-top-0 rounded-top-0  {% endif %}" href="/" aria-disabled="true">Orders</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if 'career' in request.path %} active rounded-3 border border-bottom-0 rounded-bottom-0 border-top-0 rounded-top-0  {% endif %}" href="/career" aria-disabled="true">Career</a>
+        </li>
+      </ul>
+      <div
+        class="justify-content-center m-0 p-0 d-flex align-items-center gap-5"
+        role="search"
+      >
+        <button class="btn btn-outline-info d-none d-lg-flex">
+          Need a website?
+        </button>
+        {% if  user.is_authenticated %}
+          <div class="login-signup-holder d-flex">
+            <div class="dropdown">
+              <a class="btn btn-primary  dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{user.username}}
+              </a>
+
+              <ul class="dropdown-menu">
+                <li><a href="/auth/logout" class="dropdown-item btn-primary text-decoration-none btn ">logout</a></li>
+                <li><a href="/auth/profile" class="dropdown-item btn-primary text-decoration-none btn "> edit profile </a></li>
+              </ul>
+            </div>
+          </div>
+        {% else %}
+        <div class="login-signup-holder d-none d-lg-flex ">
+            <a href="/auth/login" class="login-signup rounded "></a>
+            <a href="/auth/register" class=" login-signup-popup rounded ">Sign up</a>
+        </div>
+        <div class="login-signup-holder d-lg-none gap-2 ">
+          <a href="/auth/login" class=" btn-primary text-decoration-none btn ">Login</a>
+          <a href="/auth/register" class=" btn-primary text-decoration-none btn ">Signup</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>
+<hr class="mt-0" />
+
+{% endblock navabar %}

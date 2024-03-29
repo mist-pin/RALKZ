@@ -1,0 +1,42 @@
+{% extends 'outline.html' %}
+{% load static %}
+{% block navbar %}
+
+{% endblock %}
+{% block body %}
+  <section class="row">
+    <div class="d-flex justify-content-around align-items-center">
+      <img src={% static 'img/ralkz_logo.png' %} class="img-thumbnail w-75 bg-body m-0 p-0 border-0 mt-5 mt-md-3 mt-lg-0 w-auto" style="mix-blend-mode: color-dodge; opacity: .4;" alt="" />
+    </div>
+
+    <div class="d-flex justify-content-center mt-lg-5">
+      <form class="w-auto bg-body d-flex flex-column" method="POST" action="/auth/login/">
+        {% csrf_token %}
+        <div class="border border-end-0 border-bottom-0 rounded mb-3 shadow-lg p-4">
+          <div class="border border-end-0 border-bottom-0 rounded mb-3 shadow-lg p-4">
+            <div class="mb-3">
+              <label for="username" class="form-label"><i class="bi bi-person"></i>&nbsp;&nbsp;Username</label>
+              <div class="input-group">
+                <span class="border p-1 rounded-start">@</span>
+                <input type="text" class="form-control rounded-end border-start-0" placeholder="e.g: strip_edz_24" name="username" id="username" />
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="password1" class="form-label"><i class="bi bi-key"></i>&nbsp;&nbsp;Password</label>
+              <div class="input-group">
+                <input type="password" class="form-control rounded-start border-end-0" name="password" id="password1" />
+                <button class="bi bi-eye border p-1 rounded-end bg-body"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3 form-check">
+          <label><a href="">forgot password?</a></label>
+        </div>
+        <button type="submit" class="btn btn-primary w-25 align-self-center">Signin</button>
+      </form>
+    </div>
+  </section>
+{% endblock %}
