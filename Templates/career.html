@@ -1,6 +1,8 @@
 {% extends "outline.html" %} {% load static %} {% block body %}
 <section class="faq-body-section">
-    {% if  data.application_status%}
+    {% if data.is_employee %}
+        <span>is_employee</span>
+    {% elif  data.application_status%}
         <span class="h3">application status: {{data.application_status}}</span>
     {% else %}
         <span class="h1 d-block text-decoration-underline m-0">How the company works?</span>

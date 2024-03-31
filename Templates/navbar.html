@@ -11,9 +11,7 @@
         style="width: 70px"
         alt=""
     /></a>
-    <button class="btn btn-outline-light d-lg-none" type="submit">
-      Need a website?
-    </button>
+    <a class="btn btn-outline-info d-lg-none text-decoration-none " href="/orders">Need a website?</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -25,40 +23,32 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div
-      class="collapse navbar-collapse text-center"
-      id="navbarSupportedContent"
-    >
+    <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 page-link-list">
         <li class="nav-item">
-          <a class="nav-link {% if '/' == request.path %} active rounded-3 border border-bottom-0 rounded-bottom-0 border-top-0 rounded-top-0  {% endif %}" href="\">Home</a>
+          <a class="nav-link {% if '/' == request.path %} active rounded-3 border border-bottom-0 rounded-bottom-0 border-top-0 rounded-top-0  {% endif %}" href="/">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {% if 'service' in request.path %} active rounded-3 border border-bottom-0 rounded-bottom-0 border-top-0 rounded-top-0  {% endif %}" href="/"> Services </a>
+          <a class="nav-link {% if 'service' in request.path %} active rounded-3 border border-bottom-0 rounded-bottom-0 border-top-0 rounded-top-0  {% endif %}" href="/service"> Services </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {% if 'about' in request.path %} active rounded-3 border border-bottom-0 rounded-bottom-0 border-top-0 rounded-top-0  {% endif %}" href="/" aria-disabled="true">About</a>
+          <a class="nav-link {% if 'about' in request.path %} active rounded-3 border border-bottom-0 rounded-bottom-0 border-top-0 rounded-top-0  {% endif %}" href="/about" aria-disabled="true">About</a>
         </li>
         <li class="nav-item">
           <a class="nav-link {% if 'faq' in request.path %} active rounded-3 border border-bottom-0 rounded-bottom-0 border-top-0 rounded-top-0  {% endif %}" href="/faq" aria-disabled="true">FAQ</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {% if 'orders' in request.path %} active rounded-3 border border-bottom-0 rounded-bottom-0 border-top-0 rounded-top-0  {% endif %}" href="/" aria-disabled="true">Orders</a>
+          <a class="nav-link {% if 'orders' in request.path %} active rounded-3 border border-bottom-0 rounded-bottom-0 border-top-0 rounded-top-0  {% endif %}" href="/orders" aria-disabled="true">Orders</a>
         </li>
         <li class="nav-item">
           <a class="nav-link {% if 'career' in request.path %} active rounded-3 border border-bottom-0 rounded-bottom-0 border-top-0 rounded-top-0  {% endif %}" href="/career" aria-disabled="true">Career</a>
         </li>
-        <li class="nav-item">
+        {% comment %} <li class="nav-item">
           <a class="nav-link {% if 'emp' in request.path %} active rounded-3 border border-bottom-0 rounded-bottom-0 border-top-0 rounded-top-0  {% endif %}" href="/emp/" aria-disabled="true">Emploeyee</a>
-        </li>
+        </li> {% endcomment %}
       </ul>
-      <div
-        class="justify-content-center m-0 p-0 d-flex align-items-center gap-5"
-        role="search"
-      >
-        <button class="btn btn-outline-info d-none d-lg-flex">
-          Need a website?
-        </button>
+      <div class="justify-content-center m-0 p-0 d-flex align-items-center gap-5" role="search">
+        <a class="btn btn-outline-info d-none d-lg-flex text-decoration-none " href="/orders">Need a website?</a>
         {% if  user.is_authenticated %}
           <div class="login-signup-holder d-flex">
             <div class="dropdown">

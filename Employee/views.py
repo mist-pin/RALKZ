@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
 
 @login_required
-def asdf(request):
-    return render(request, 'employee.html')
+def employee(request):
+    print('*'*10,'info: Employee.views.employee() not designed','*'*10)
+    return redirect('/career/')

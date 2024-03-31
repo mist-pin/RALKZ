@@ -9,16 +9,14 @@ class Project(models.Model):
     project_name = models.CharField(max_length=20)
     project_description = models.TextField()
     ordered_date = models.DateField(auto_now_add=True)
-    project_init_date = models.DateField()
-    user_agreement = models.FileField()
-    git_link = models.TextField()
-    project_team = models.CharField(max_length=20)
-    estimated_amount = models.IntegerField()
-    is_completed = models.BooleanField(default=False)
+    project_init_date = models.DateField(null=True, blank=True)
+    user_agreement = models.FileField(null=True, blank=True)
+    git_link = models.TextField(null=True, blank=True)
+    project_team = models.CharField(max_length=20, null=True, blank=True)
+    estimated_cost = models.IntegerField(null=True, blank=True)
+    is_completed = models.BooleanField(default=False, null=True, blank=True)
     is_update = models.BooleanField(default=False)
-    update_base_project = models.ForeignKey('self',
-                                            on_delete=models.PROTECT)  # the base project id of the update is linked
-    # here.
+    root_project = models.ForeignKey('self',on_delete=models.PROTECT, null=True, blank=True)  # the base project id of the update is linked here.
 
 
 class Aspirants(models.Model):

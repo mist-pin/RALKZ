@@ -7,7 +7,8 @@ urlpatterns = [
     path('faq/', views.faq),
     path('career/', views.career),
     path('career/apply/', views.apply_job),
-    # path('service/', views.services),
-    # path('about/', views.about),
-    # path('orders/', views.orders),
+    path('service/', views.services),
+    path('about/', views.about),
+    path('orders/', views.orders),
+    path('orders/place/', views.orders),
 ]
