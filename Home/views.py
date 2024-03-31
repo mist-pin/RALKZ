@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user
 from Home.models import Aspirants, Project
 
+
 def home(request):
     return render(request, 'home.html')
 
@@ -20,11 +21,12 @@ def career(request):
     data = {}
     if user.is_authenticated:
         if user.is_employee:
-            data['is_employee']=user.is_employee
+            return redirect('/emp/')
         elif user.is_aspirant:
             db= Aspirants.objects.filter(user=user)
             data['application_status'] = db[0].application_status
     return render(request, 'career.html', {'data':data})
+
 
 @login_required
 def apply_job(request):
@@ -64,6 +66,7 @@ def apply_job(request):
 def services(request):
     return render(request, 'services.html',)
 
+
 def about(request):
     return render(request, 'about.html',)
 
@@ -93,17 +96,21 @@ def orders(request):
         is_update = data.get('is_update')
         if is_update:
             data['is_update'] = True
-            if not Project.objects.all().filter(project_name= data.get('project_name'), owner=user).exists():
-                # The mentioned root project is not valid
+            usr_projs = Project.objects.all().filter(owner=user)
+            root_proj = usr_projs.filter(project_name = data.get('root_project'))
+            if not root_proj:
                 data['msg'] = 'The root project doesn\'t exist'
                 return data
+            else:
+                data['root_project'] = root_proj[0]
         else:
             data['is_update'] = False
             data.pop('root_project')
         if any(x == '' for x in data.values()):
             data['msg'] = 'Fill out the required fields'
-        elif rows:= Project.objects.all().filter(owner= user).exists():
-            if any(row.project_name == data.get('name') for row in rows):
+        elif Project.objects.all().filter(owner= user).exists():
+            rows = Project.objects.all().filter(owner= user)
+            if any(row.project_name == data.get('project_name') for row in rows):
                 data['msg'] = 'project name alredy used'
         return data
 
@@ -120,7 +127,7 @@ def orders(request):
                            is_update = data.get('is_update'),root_project = data.get('root_project'),  owner= user)
         table.save()
         messages.info(request, 'order placed successfully')
-        return render(request, 'orders.html')
+        return redirect('/orders/')
     else:
         data = {}
         if 'place' in request.path:
@@ -128,9 +135,10 @@ def orders(request):
                 data['show_form'] = True
             else:
                 messages.warning(request, 'Plese sign in before ordering')
-        else:
-            data['orders'] = Project.objects.filter(owner=user)
+        data['orders'] = Project.objects.filter(owner=user)
         return render(request, 'orders.html', {'data':data})
+
+
 def _404(request, exception):
     data = {'exp':exception}
     if not get_user(request).is_authenticated:
