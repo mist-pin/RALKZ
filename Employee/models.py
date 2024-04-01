@@ -28,6 +28,7 @@ class Salary(models.Model):
     id = models.SmallAutoField(primary_key=True)
     date = models.DateTimeField(auto_now_add=True)
     amount = models.IntegerField()
+    employee = models.ForeignKey(Employee, on_delete=models.PROTECT)
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
     payment_proof = models.TextField()
 

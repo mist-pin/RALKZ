@@ -12,11 +12,11 @@
                 <th>date</th>
                 <th>amount</th>
                 <th>project</th>
-                {% for sal in data.emp.salary %}
+                {% for sal in data.salary %}
                     <tr>{{forloop.counter}}</tr>
                     <tr>{{sal.date}}</tr>
                     <tr>{{sal.amount}}</tr>
-                    <tr>{{sal.project.name}}</tr>
+                    <tr>{{sal.project}}</tr>
                 {% endfor %}
             </table>
         </div>
@@ -59,7 +59,7 @@
                     <tr>
                         <td>{{proj.counter}}</td>
                         <td>{{proj.project}}</td>
-                        {% if data.current_project %}
+                        {% if proj.current_project %}
                             <td>current</td>
                         {% endif %}
                     </tr>
