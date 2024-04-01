@@ -7,6 +7,7 @@ class Project(models.Model):
     id = models.SmallAutoField(primary_key=True)
     owner = models.ForeignKey(RalkzUser, on_delete=models.PROTECT)
     project_name = models.CharField(max_length=20)
+    status = models.CharField(max_length=20, default="order placed")
     project_description = models.TextField()
     ordered_date = models.DateField(auto_now_add=True)
     project_init_date = models.DateField(null=True, blank=True)
@@ -14,7 +15,6 @@ class Project(models.Model):
     git_link = models.TextField(null=True, blank=True)
     project_team = models.CharField(max_length=20, null=True, blank=True)
     estimated_cost = models.IntegerField(null=True, blank=True)
-    is_completed = models.BooleanField(default=False, null=True, blank=True)
     is_update = models.BooleanField(default=False)
     root_project = models.ForeignKey('self',on_delete=models.PROTECT, null=True, blank=True)  # the base project id of the update is linked here.
 

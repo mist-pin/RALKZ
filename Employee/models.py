@@ -5,8 +5,8 @@ from Home.models import Project
 class Employee(models.Model):
     employee_id = models.CharField(max_length=20, primary_key=True)
     user_name = models.ForeignKey(RalkzUser, on_delete=models.PROTECT)
-    join_date = models.DateField()
-    resign_date = models.DateField()
+    join_date = models.DateField(auto_now_add=True)
+    resign_date = models.DateField(null=True, blank=True)
 
 class ScorePattern(models.Model):
     id = models.SmallAutoField(primary_key=True)

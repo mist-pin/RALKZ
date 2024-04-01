@@ -4,70 +4,11 @@
 
 <section class="">
     <div class="border rounded p-2 my-5">
-        <span class="h1 d-block"> Employee Details </span>
-        <div class="ms-3">
-            <span class="h3 d-block text-decoration-underline ">Salary:</span>
-            <table class='table '>
-                <th>s.n</th>
-                <th>date</th>
-                <th>amount</th>
-                <th>project</th>
-                {% for sal in data.salary %}
-                    <tr>{{forloop.counter}}</tr>
-                    <tr>{{sal.date}}</tr>
-                    <tr>{{sal.amount}}</tr>
-                    <tr>{{sal.project}}</tr>
-                {% endfor %}
-            </table>
-        </div>
-        <a href="" class="btn btn-outline-secondary ">resign job</a>
+        <span class="h1 d-block text-decoration-underline"> Employee Details </span>
+        <span class="h4 d-block ms-4 mb-2">employee_id : {{data.employee_id}}</span>
+        <span class="h4 d-block ms-4 mb-2">username : <a href="/account/{{data.user_name}}">{{data.user_name}}</a></span>
+        <span class="h4 d-block ms-4 mb-2">team : {{data.team}}</span>
+        <span class="h4 d-block ms-4 mb-2">score : {{data.score}}</span>
     </div>
-    {% comment %} end of employee details {% endcomment %}
-
-
-    <div class="border rounded p-2 ">
-        <span class="h1 d-block">Team Details</span>
-        <div class="ms-3">
-            <span class="h3 d-block text-decoration-underline">Team members</span>
-            <table class='table '>
-                <th>
-                    <td>s.n</td>
-                    <td>join_date</td>
-                    <td>emp_position</td>
-                    <td>employee</td>
-                </th>
-                {% for em in data.team_members %}
-                    <tr>
-                        <td>{{em.counter}}</td>
-                        <td>{{em.date}}</td>
-                        <td>{{em.emp_position}}</td>
-                        <td>{{em.employee}}</td>
-                    </tr>
-                {% endfor %}
-            </table>
-        </div>
-
-        <div class="ms-3">
-            <span class="h3 d-block text-decoration-underline">Team projects</span>
-            <table class='table '>
-                <th>
-                    <td>s.n</td>
-                    <td>project</td>
-                    <td>current</td>
-                </th>
-                {% for proj in data.team_projects %}
-                    <tr>
-                        <td>{{proj.counter}}</td>
-                        <td>{{proj.project}}</td>
-                        {% if proj.current_project %}
-                            <td>current</td>
-                        {% endif %}
-                    </tr>
-                {% endfor %}
-            </table>
-        </div>
-    </div>
-    {% comment %} end of team details {% endcomment %}
-
 </section>
 {% endblock body %}

@@ -145,3 +145,25 @@ def _404(request, exception):
         data['msg'] = 'Page requested requires login'
 
     return render(request, '404.html',{'data':data})
+
+@login_required
+def project(request, **kwargs):
+    '''
+        > it shows the perticular project details of the requested project if the project is of the logged-in user
+        > the project details:
+                > name
+                > description
+                > project status -> project finished date(if completed) -> project init date(if started)
+                > project ordered date
+                > owner -> link to user_account
+                > team reviews
+                > estimated_cost
+    '''
+    project_name = kwargs['project_id']
+    user = get_user(request)
+    proj = Project.objects.filter(owner=user, project_name = project_name)
+    if not proj.exists():
+        messages.error(request, f'The requested project doesn\'t exist under the user "{user.username}"')
+        return redirect('/orders')
+    proj = proj[0]
+    return render(request,'project.html', {'data':proj})

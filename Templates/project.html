@@ -1,0 +1,17 @@
+{% extends 'outline.html' %}
+{% load static %}
+{% block body %}
+  <section class="">
+    <span class="h1 text-decoration-underline d-block mb-5 ">{{data.project_name}}</span>
+    <span class="d-block h4">description:   {{data.project_description}}</span>
+    <span class="d-block h4">estimated_cost: {{data.estimated_cost}}</span>
+    <span class="d-block h4">init_date: {{data.project_init_date}}</span>
+    <span class="d-block h4">ordered_date: {{data.ordered_date}}</span>
+    <span class="d-block h4">git_link: {{data.git_link}}</span>
+    <span class="d-block h4">status: {{data.status}}</span>
+    {% if data.is_update %}
+      <span class="d-block h4"> order type : update</span>
+      <span class="d-block h4">root_project: <a href="/orders/{{data.root_project.project_name}}">{{data.root_project.project_name}}</a></span>
+    {% endif %}
+  </section>
+{% endblock %}
