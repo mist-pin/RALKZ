@@ -3,6 +3,9 @@
 {% block body %}
 
 <section class="">
+
+
+
     <div class="border rounded p-2 my-5 d-flex flex-column">
         <span class="h1 d-block"> Employee Details </span>
         <div class="ms-3">
@@ -34,6 +37,7 @@
         <a href="" class="btn btn-outline-secondary w-25 align-self-center ">request job resign</a>
     </div>
     {% comment %} end of employee details {% endcomment %}
+
 
 
     <div class="border rounded p-2 ">
@@ -73,6 +77,8 @@
                         <td>{{proj.project}}</td>
                         {% if proj.current_project %}
                             <td>current</td>
+                        {% else %}
+                            <td>-</td>
                         {% endif %}
                     </tr>
                 {% endfor %}
@@ -83,6 +89,8 @@
         </div>
     </div>
     {% comment %} end of team details {% endcomment %}
+
+
 
 </section>
 {% endblock body %}

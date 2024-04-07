@@ -50,32 +50,33 @@
         </li>
 
       </ol>
-
-      <div class="border p-4 rounded-2 my-3  ">
-        <span class="h1 text-decoration-underline d-block ">MY Orders</span>
-        {% if data.orders %}
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th scope="col">s.n</th>
-                <th scope="col">name</th>
-                <th scope="col">description</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for order in data.orders %}
+      {% if user.is_authenticated %}
+        <div class="border p-4 rounded-2 my-3  ">
+          <span class="h1 text-decoration-underline d-block ">MY Orders</span>
+          {% if data.orders %}
+            <table class="table table-hover">
+              <thead>
                 <tr>
-                  <th scope="row">{{forloop.counter}}</th>
-                  <td><a href="/orders/{{order.project_name}}">{{order.project_name}}</a></td>
-                  <td>{{order.project_description}}</td>
+                  <th scope="col">s.n</th>
+                  <th scope="col">name</th>
+                  <th scope="col">description</th>
                 </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        {% else %}
-          <span>There are no orderes yet</span>
-        {% endif %}
-      </div>
+              </thead>
+              <tbody>
+                {% for order in data.orders %}
+                  <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td><a href="/orders/{{order.project_name}}">{{order.project_name}}</a></td>
+                    <td>{{order.project_description}}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <span>no orders yet</span>
+          {% endif %}
+        </div>
+      {% endif %}
 
       {% if data.show_form %}
       <form class="w-auto bg-body d-flex flex-column" method="POST" action="/orders/place/">

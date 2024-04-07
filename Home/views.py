@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user
 from Home.models import Aspirants, Project
+from Auth.models import RalkzUser
 
 
 def home(request):
@@ -147,7 +148,7 @@ def _404(request, exception):
     return render(request, '404.html',{'data':data})
 
 @login_required
-def project(request, **kwargs):
+def project(request, **kwrgs):
     '''
         > it shows the perticular project details of the requested project if the project is of the logged-in user
         > the project details:
@@ -159,7 +160,7 @@ def project(request, **kwargs):
                 > team reviews
                 > estimated_cost
     '''
-    project_name = kwargs['project_id']
+    project_name = kwrgs['project_id']
     user = get_user(request)
     proj = Project.objects.filter(owner=user, project_name = project_name)
     if not proj.exists():
@@ -167,3 +168,24 @@ def project(request, **kwargs):
         return redirect('/orders')
     proj = proj[0]
     return render(request,'project.html', {'data':proj})
+
+@login_required(redirect_field_name='/auth/login')
+def user_profile(request, **kwrgs):
+    '''
+        > it shows the public user account of requested users if the user is logged in
+        > user details:
+            > username
+            > email
+            > full_name
+            > is_employee
+    '''
+    target_user = kwrgs['target_usr']
+    user = get_user(request)
+    target_user = RalkzUser.objects.get(username=target_user)
+    data = {
+        'username':target_user.username,
+        'email':target_user.email,
+        'full_name': target_user.full_name,
+        'is_employee': target_user.is_employee
+    }
+    return render(request, 'profile.html',{'data':data})

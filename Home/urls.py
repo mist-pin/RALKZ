@@ -9,7 +9,10 @@ urlpatterns = [
     path('career/apply/', views.apply_job),
     path('service/', views.services),
     path('about/', views.about),
+
     path('orders/', views.orders),
     path('orders/place/', views.orders),
-    path('orders/<str:project_id>', views.project)
+    path('orders/<str:project_id>', views.project),
+
+    path('profile/<str:target_usr>', views.user_profile),
 ]

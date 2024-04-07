@@ -1,0 +1,10 @@
+{% extends 'outline.html' %}
+{% load static %}
+{% block body %}
+  <section class="">
+    <span class="h4 d-block mb-1">username : {{data.username}}</span>
+    <span class="h4 d-block mb-1">email : {{data.email}}</span>
+    <span class="h4 d-block mb-1">full_name : {{data.full_name}}</span>
+    <span class="h4 d-block mb-1">is_employee : {{data.is_employee}}</span>
+  </section>
+{% endblock %}

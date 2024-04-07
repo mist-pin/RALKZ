@@ -8,6 +8,7 @@ class Employee(models.Model):
     join_date = models.DateField(auto_now_add=True)
     resign_date = models.DateField(null=True, blank=True)
 
+
 class ScorePattern(models.Model):
     id = models.SmallAutoField(primary_key=True)
 
@@ -38,6 +39,14 @@ class EmployeePosition(models.Model):
     date = models.DateField(auto_now_add=True)
     position = models.CharField(max_length=20)
     employee = models.ForeignKey(Employee, on_delete=models.PROTECT)
+    '''
+        emp_level = {
+            0 : employee, emp, (photographer, ui-designer+ui-developer, db+backend)
+            1 : project manager, pm
+            2 : manager, md
+        }
+    '''
+    emp_level = models.IntegerField(default=0, help_text='This is used to show the employees different pages as of their positions.')
 
 
 class Team(models.Model):

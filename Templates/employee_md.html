@@ -1,0 +1,206 @@
+{% extends "outline.html" %}
+{% load static %}
+{% block body %}
+
+<section class="">
+
+
+    <span class=" border text-decoration-underline p-1 rounded fs-1 fw-bold bg-danger">MD</span>
+
+
+    <div class="border rounded p-2 my-5 d-flex flex-column">
+        <span class="h1 d-block">Salary :</span>
+        <span>salary of the managing director</span>
+        {% if data.salary %}
+        <table class='table '>
+            <tr>
+                <th>s.n</th>
+                <th>date</th>
+                <th>amount</th>
+                <th>project</th>
+            </tr>
+            {% for sal in data.salary %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{sal.date}}</td>
+                    <td>{{sal.amount}}</td>
+                    <td>{{sal.project}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <i class="h5 text-center d-block m-2 text-decoration-line-through ">There are no salary recordes yet</i>
+        <div class="d-flex flex-column">
+            <hr class="w-75 align-self-center ">
+        </div>
+        {% endif %}
+        <a href="" class="btn btn-outline-secondary w-25 align-self-center ">request job resign</a>
+    </div>
+{% comment %} end of employee details {% endcomment %}
+
+
+
+    <div class="border rounded p-2 overflow-hidden my-5 ">
+        <span class="h1">Teams</span>
+        <input class=" float-end " type="text" placeholder="search">
+        <span class="h3 d-block text-decoration-underline ms-3 ">Team name : </span>
+        <table  class="table ms-5 ">
+            <tr>
+                <th>emp-id</th>
+                <th>position</th>
+                <th>points</th>
+                <th>action</th>
+            </tr>
+            <tr>
+                <td>ralkz_24001</td>
+                <td>emp</td>
+                <td>10</td>
+                <td><a href="" class="btn btn-secondary">manage</a></td>
+            </tr>
+            <tr>
+                <td>ralkz_24001</td>
+                <td>emp</td>
+                <td>10</td>
+                <td><a href="" class="btn btn-secondary">manage</a></td>
+            </tr>
+            <tr>
+                <td>ralkz_24001</td>
+                <td>emp</td>
+                <td>10</td>
+                <td><a href="" class="btn btn-secondary">manage</a></td>
+            </tr>
+        </table>
+    </div>
+    {% comment %} end of teams list{% endcomment %}
+
+
+
+    <div class="border rounded p-2 overflow-hidden my-5 ">
+        <span class="h1 d-block ">Aspirants :</span>
+        <table  class="table ms-5 ">
+            <tr>
+                <th>user-id</th>
+                <th>resume</th>
+                <th>id-proof</th>
+                <th>action</th>
+            </tr>
+            <tr>
+                <td>asdf-@</td>
+                <td>file--111.pdf</td>
+                <td>file--222.pdf</td>
+                <td><a href="" class="btn btn-secondary">manage</a></td>
+            </tr>
+            <tr>
+                <td>ralkz_24001</td>
+                <td>file--111.pdf</td>
+                <td>file--222.pdf</td>
+                <td><a href="" class="btn btn-secondary">manage</a></td>
+            </tr>
+            <tr>
+                <td>ralkz_24001</td>
+                <td>file--111.pdf</td>
+                <td>file--222.pdf</td>
+                <td><a href="" class="btn btn-secondary">manage</a></td>
+            </tr>
+        </table>
+    </div>
+    {% comment %} end of aspirants list {% endcomment %}
+
+
+
+    <div class="border rounded p-2 overflow-hidden my-5 ">
+            <span class="h1">Orders :</span>
+            <input class=" float-end " type="text" placeholder="search">
+        <table  class="table ms-5 ">
+            <tr>
+                <th>user-id</th>
+                <th>order-name</th>
+                <th>ordered-date</th>
+                <th>init-date</th>
+                <th>finished-date</th>
+                <th>team</th>
+                <th>action</th>
+            </tr>
+            <tr>
+                <td>asdf-@</td>
+                <td>project-1</td>
+                <td>12/2/2024</td>
+                <td>-</td>
+                <td>-</td>
+                <td>alpha</td>
+                <td><a href="" class="btn btn-secondary">manage</a></td>
+            </tr>
+            <tr>
+                <td>asdf-@</td>
+                <td>project-1</td>
+                <td>12/2/2024</td>
+                <td>-</td>
+                <td>-</td>
+                <td>alpha</td>
+                <td><a href="" class="btn btn-secondary">manage</a></td>
+            </tr>
+                        <tr>
+                <td>asdf-@</td>
+                <td>project-1</td>
+                <td>12/2/2024</td>
+                <td>-</td>
+                <td>-</td>
+                <td>alpha</td>
+                <td><a href="" class="btn btn-secondary">manage</a></td>
+            </tr>
+        </table>
+    </div>
+    {% comment %} end of orders list {% endcomment %}
+
+
+
+    <div class="border rounded p-2 overflow-hidden my-5">
+        <span class="h1">Finance :</span>
+        <div class="float-end">
+            <button class="btn btn-secondary">income/expence</button>
+            <input type="text" placeholder="search">
+        </div>
+        <table  class="table ms-5 ">
+            <tr>
+                <th>sn</th>
+                <th>date</th>
+                <th>account</th>
+                <th>income/expence</th>
+                <th>from</th>
+                <th>to</th>
+                <th>amount</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>12/2/2024</td>
+                <td>salary</td>
+                <td>expence</td>
+                <td>ralkz</td>
+                <td>asdf-@</td>
+                <td>1000</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>12/2/2024</td>
+                <td>salary</td>
+                <td>expence</td>
+                <td>ralkz</td>
+                <td>asdf-@</td>
+                <td>1000</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>12/2/2024</td>
+                <td>salary</td>
+                <td>expence</td>
+                <td>ralkz</td>
+                <td>asdf-@</td>
+                <td>1000</td>
+            </tr>
+        </table>
+    </div>
+    {% comment %} finance {% endcomment %}
+
+
+</section>
+{% endblock body %}
