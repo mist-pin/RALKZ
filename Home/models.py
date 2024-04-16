@@ -11,6 +11,7 @@ class Project(models.Model):
     project_description = models.TextField()
     ordered_date = models.DateField(auto_now_add=True)
     project_init_date = models.DateField(null=True, blank=True)
+    project_finish_date = models.DateField(null=True, blank=True)
     user_agreement = models.FileField(null=True, blank=True)
     git_link = models.TextField(null=True, blank=True)
     project_team = models.CharField(max_length=20, null=True, blank=True)

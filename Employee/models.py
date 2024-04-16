@@ -5,7 +5,7 @@ from Home.models import Project
 class Employee(models.Model):
     employee_id = models.CharField(max_length=20, primary_key=True)
     user_name = models.ForeignKey(RalkzUser, on_delete=models.PROTECT)
-    join_date = models.DateField(auto_now_add=True)
+    join_date = models.DateField(auto_now_add=True, null=True)
     resign_date = models.DateField(null=True, blank=True)
 
 
@@ -39,14 +39,15 @@ class EmployeePosition(models.Model):
     date = models.DateField(auto_now_add=True)
     position = models.CharField(max_length=20)
     employee = models.ForeignKey(Employee, on_delete=models.PROTECT)
+    # todo : tobe implemented.
     '''
         emp_level = {
-            0 : employee, emp, (photographer, ui-designer+ui-developer, db+backend)
-            1 : project manager, pm
-            2 : manager, md
+            1 : md
+            2 : manager -> Project_manager , Team_manager , Sales_manager
+            3 : team_lead, employee, emp, (photographer, ui-designer+ui-developer, db+backend)
         }
     '''
-    emp_level = models.IntegerField(default=0, help_text='This is used to show the employees different pages as of their positions.')
+    emp_level = models.IntegerField(default=3, help_text='This is used to show the employees different pages as of their positions.')
 
 
 class Team(models.Model):

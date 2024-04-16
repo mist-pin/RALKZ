@@ -39,8 +39,8 @@ def apply_job(request):
 
     data = {'form':True,'is_aspirant':user.is_aspirant}
     if Aspirants.objects.exists():
-        db = Aspirants.objects.filter(user=user.username)[0]
-        data['application_status']=db[0].application_status
+        if db := Aspirants.objects.filter(user=user.username):
+            data['application_status']=db[0].application_status
 
 
     if request.method == "POST":

@@ -19,7 +19,7 @@ def check_data_to_update(base_data, **kwrgs):
     print('vals = ' , values)
     return values
 
-def add_employee(user_name, emp_team, emp_position):
+def add_employee(user_name, emp_team, emp_position, emp_level=4):
     '''
         db_hierarchy:
             RalkzUser <- Aspirant
@@ -60,7 +60,7 @@ def add_employee(user_name, emp_team, emp_position):
         '''
         import datetime
         year = str(datetime.datetime.now().year)[2:]
-        prev_emp = Employee.objects.order_by('-join_date')
+        prev_emp = Employee.objects.order_by('join_date')
 
         emp_count = '0001'
         if prev_emp.exists():
@@ -71,9 +71,10 @@ def add_employee(user_name, emp_team, emp_position):
 
         emp_id = f'ralkz_{year}{emp_count}'
         return emp_id
+
     try:
         new_emp = Employee(employee_id=_emp_id_generator(), user_name= user_obj)
-        position = EmployeePosition(position=emp_position, employee=new_emp)
+        position = EmployeePosition(position=emp_position, employee=new_emp, emp_level=emp_level)
         team = Team(team_name=emp_team, employee=new_emp)
 
         user_obj.is_employee = True
@@ -88,3 +89,11 @@ def add_employee(user_name, emp_team, emp_position):
         import traceback
         traceback.print_exc()
         return False
+
+
+
+
+MD = 1
+MAN = 2
+EMP = 3
+

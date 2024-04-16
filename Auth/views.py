@@ -149,6 +149,7 @@ def profile(request):
                     return redirect('/auth/profile')
                 else:
                     user.email= email
+                    # todo: a bug > on updating email it says the unique constraint failed
             elif data.get('address'):
                 user.address= address
         messages.warning(request, 'user detailes updated successfully')

@@ -1,0 +1,19 @@
+info:
+    db_hierarchy:
+        RalkzUser <- Aspirant
+
+        RalkzUser <- Employee <- Salary
+        RalkzUser <- Employee <- EmployeePosition
+        RalkzUser <- Employee <- Team
+
+        RalkzUser <- Project <- Score
+        RalkzUser <- Project <- Salary
+        RalkzUser <- Project <- Income
+
+        ScoreAlloted <- Score
+        ScoreAchived <- Score
+
+
+Bug:
+
+    >  on username change in edit profile, the fields which refer to username must be changed

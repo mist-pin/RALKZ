@@ -43,33 +43,32 @@
     <div class="border rounded p-2 overflow-hidden my-5 ">
         <span class="h1">Teams</span>
         <input class=" float-end " type="text" placeholder="search">
-        <span class="h3 d-block text-decoration-underline ms-3 ">Team name : </span>
-        <table  class="table ms-5 ">
-            <tr>
-                <th>emp-id</th>
-                <th>position</th>
-                <th>points</th>
-                <th>action</th>
-            </tr>
-            <tr>
-                <td>ralkz_24001</td>
-                <td>emp</td>
-                <td>10</td>
-                <td><a href="" class="btn btn-secondary">manage</a></td>
-            </tr>
-            <tr>
-                <td>ralkz_24001</td>
-                <td>emp</td>
-                <td>10</td>
-                <td><a href="" class="btn btn-secondary">manage</a></td>
-            </tr>
-            <tr>
-                <td>ralkz_24001</td>
-                <td>emp</td>
-                <td>10</td>
-                <td><a href="" class="btn btn-secondary">manage</a></td>
-            </tr>
-        </table>
+        {% if data.teams %}
+            {% for name, team in  data.teams.items%}
+                <span class="h3 d-block text-decoration-underline ms-3 ">{{name}} : </span>
+                <table  class="table ms-5 ">
+                    <tr>
+                        <th>emp-id</th>
+                        <th>position</th>
+                        <th>points</th>
+                        <th>action</th>
+                    </tr>
+                    {% for employee in team %}
+                        <tr>
+                            <td><a href="/emp/acc/{{employee.employee_id}}">{{employee.employee_id}}</a></td>
+                            <td>{{employee.employee_pos}}</td>
+                            <td>not implemented</td>
+                            <td><a href="" class="btn btn-secondary">manage</a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endfor %}
+        {% else %}
+            <i class="h5 text-center d-block m-2 text-decoration-line-through ">No teams yet.</i>
+            <div class="d-flex flex-column">
+                <hr class="w-75 align-self-center ">
+            </div>
+        {% endif %}
     </div>
     {% comment %} end of teams list{% endcomment %}
 
@@ -77,78 +76,70 @@
 
     <div class="border rounded p-2 overflow-hidden my-5 ">
         <span class="h1 d-block ">Aspirants :</span>
-        <table  class="table ms-5 ">
-            <tr>
-                <th>user-id</th>
-                <th>resume</th>
-                <th>id-proof</th>
-                <th>action</th>
-            </tr>
-            <tr>
-                <td>asdf-@</td>
-                <td>file--111.pdf</td>
-                <td>file--222.pdf</td>
-                <td><a href="" class="btn btn-secondary">manage</a></td>
-            </tr>
-            <tr>
-                <td>ralkz_24001</td>
-                <td>file--111.pdf</td>
-                <td>file--222.pdf</td>
-                <td><a href="" class="btn btn-secondary">manage</a></td>
-            </tr>
-            <tr>
-                <td>ralkz_24001</td>
-                <td>file--111.pdf</td>
-                <td>file--222.pdf</td>
-                <td><a href="" class="btn btn-secondary">manage</a></td>
-            </tr>
-        </table>
+        {% if  data.aspirants%}
+            <table  class="table ms-5 ">
+                <tr>
+                    <th>sn</th>
+                    <th>user-id</th>
+                    <th>resume</th>
+                    <th>id-proof</th>
+                    <th>action</th>
+                </tr>
+                {% for user in data.aspirants %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{user.id}}</td>
+                        <td> <a href="{{user.resume.url}}/">{{user.resume}}</a> </td>
+                        <td> <a href="{{user.identity_proof.url}}/">{{user.identity_proof}}</a> </td>
+                        <td><a href="" class="btn btn-secondary">manage</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+        <i class="h5 text-center d-block m-2 text-decoration-line-through ">No aspirants for now</i>
+        <div class="d-flex flex-column">
+            <hr class="w-75 align-self-center ">
+        </div>
+        {% endif %}
     </div>
     {% comment %} end of aspirants list {% endcomment %}
 
 
 
     <div class="border rounded p-2 overflow-hidden my-5 ">
-            <span class="h1">Orders :</span>
-            <input class=" float-end " type="text" placeholder="search">
-        <table  class="table ms-5 ">
-            <tr>
-                <th>user-id</th>
-                <th>order-name</th>
-                <th>ordered-date</th>
-                <th>init-date</th>
-                <th>finished-date</th>
-                <th>team</th>
-                <th>action</th>
-            </tr>
-            <tr>
-                <td>asdf-@</td>
-                <td>project-1</td>
-                <td>12/2/2024</td>
-                <td>-</td>
-                <td>-</td>
-                <td>alpha</td>
-                <td><a href="" class="btn btn-secondary">manage</a></td>
-            </tr>
-            <tr>
-                <td>asdf-@</td>
-                <td>project-1</td>
-                <td>12/2/2024</td>
-                <td>-</td>
-                <td>-</td>
-                <td>alpha</td>
-                <td><a href="" class="btn btn-secondary">manage</a></td>
-            </tr>
-                        <tr>
-                <td>asdf-@</td>
-                <td>project-1</td>
-                <td>12/2/2024</td>
-                <td>-</td>
-                <td>-</td>
-                <td>alpha</td>
-                <td><a href="" class="btn btn-secondary">manage</a></td>
-            </tr>
-        </table>
+        <span class="h1">Orders :</span>
+        <input class=" float-end " type="text" placeholder="search">
+        {% if data.orders %}
+            <table  class="table ms-5 ">
+                <tr>
+                    <th>sn</th>
+                    <th>order-name</th>
+                    <th>user-id</th>
+                    <th>ordered-date</th>
+                    <th>init-date</th>
+                    <th>finished-date</th>
+                    <th>team</th>
+                    <th>action</th>
+                </tr>
+                {% for order in  data.orders%}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{order.project_name}}</td>
+                        <td>{{order.owner}}</td>
+                        <td>{{order.ordered_date}}</td>
+                        <td>{{order.project_init_date}}</td>
+                        <td>{{order.project_finish_date}}</td>
+                        <td>{{order.project_team}}</td>
+                        <td><a href="" class="btn btn-secondary">manage</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <i class="h5 text-center d-block m-2 text-decoration-line-through ">No orders yet</i>
+            <div class="d-flex flex-column">
+                <hr class="w-75 align-self-center ">
+            </div>
+        {% endif %}
     </div>
     {% comment %} end of orders list {% endcomment %}
 
@@ -160,44 +151,33 @@
             <button class="btn btn-secondary">income/expence</button>
             <input type="text" placeholder="search">
         </div>
-        <table  class="table ms-5 ">
-            <tr>
-                <th>sn</th>
-                <th>date</th>
-                <th>account</th>
-                <th>income/expence</th>
-                <th>from</th>
-                <th>to</th>
-                <th>amount</th>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>12/2/2024</td>
-                <td>salary</td>
-                <td>expence</td>
-                <td>ralkz</td>
-                <td>asdf-@</td>
-                <td>1000</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>12/2/2024</td>
-                <td>salary</td>
-                <td>expence</td>
-                <td>ralkz</td>
-                <td>asdf-@</td>
-                <td>1000</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>12/2/2024</td>
-                <td>salary</td>
-                <td>expence</td>
-                <td>ralkz</td>
-                <td>asdf-@</td>
-                <td>1000</td>
-            </tr>
-        </table>
+        {% if data.finance %}
+            <table  class="table ms-5 ">
+                <tr>
+                    <th>sn</th>
+                    <th>date</th>
+                    <th>account</th>
+                    <th>income/expence</th>
+                    <th>from</th>
+                    <th>to</th>
+                    <th>amount</th>
+                </tr>
+                {% comment %} <tr>
+                    <td>1</td>
+                    <td>12/2/2024</td>
+                    <td>salary</td>
+                    <td>expence</td>
+                    <td>ralkz</td>
+                    <td>asdf-@</td>
+                    <td>1000</td>
+                </tr> {% endcomment %}
+            </table>
+        {% else %}
+            <i class="h5 text-center d-block m-2 text-decoration-line-through ">No transaction records yet</i>
+            <div class="d-flex flex-column">
+                <hr class="w-75 align-self-center ">
+            </div>
+        {% endif %}
     </div>
     {% comment %} finance {% endcomment %}
 
