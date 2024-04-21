@@ -5,7 +5,7 @@ from Home.models import Project
 class Employee(models.Model):
     employee_id = models.CharField(max_length=20, primary_key=True)
     user_name = models.ForeignKey(RalkzUser, on_delete=models.PROTECT)
-    join_date = models.DateField(auto_now_add=True, null=True)
+    join_date = models.DateField(null=True)
     resign_date = models.DateField(null=True, blank=True)
 
 

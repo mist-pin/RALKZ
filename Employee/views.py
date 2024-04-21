@@ -33,7 +33,7 @@ def emp(request, employee):
         ]
     }
 
-    return render(request, 'employee_home.html', {'data':data})
+    return render(request, 'employee_emp.html', {'data':data})
 
 
 # team leader
@@ -64,19 +64,43 @@ def tl(request, employee):
             for member in Team.objects.filter(team_name=team.team_name, employee__user_name__is_employee=True)
         ]
     }
-    return render(request, 'employee_pm.html', {'data':data})
+    return render(request, 'employee_tl.html', {'data':data})
 
 
 # project manager
 @login_required
-def pm(request, **kwrgs):
-    pass
+def pm(request):
+    return render(request, 'employee_pm.html')
 
 
 # head of project managers
 @login_required
 def hpm(request, **kwrgs):
-    pass
+    return render(request, 'employee_hpm.html')
+
+
+# team manager
+@login_required
+def tm(request, **kwrgs):
+    '''
+        > his salary
+        > team -> team name, employees link, employees points, team points
+        > projects -> project name link, points per project, current project indication
+        > job -> define one day work, allocate work for employees
+        >
+    '''
+    return render(request, 'employee_tm.html')
+
+
+# sales manager
+@login_required
+def sm(request, **kwrgs):
+    '''
+        > his salary
+        > projects -> name, estimated cost and expences, advance payed, amount to be payd, actual income and expence, loss or gain
+        > sales report per project
+    '''
+    return render(request, 'employee_sm.html')
 
 
 # managing director
@@ -157,7 +181,7 @@ def employee_account(request, **kwrgs):
 def employee_home(request):
     '''
         > Only GetMethod will be handled here
-        > according to the employee level requests are redirected except for common employees
+        > according to the employee level requests are redirected
         > data{
             salary -> date, amount, project
             team_members -> date,emp_position,employee
@@ -165,7 +189,6 @@ def employee_home(request):
           }
     '''
     user = get_user(request)
-    print('*'*20,user)
     employee = Employee.objects.get(user_name = user)
     emp_pos_obj = EmployeePosition.objects.filter(employee = employee).order_by('-date')[0]
     emp_level = emp_pos_obj.emp_level
@@ -176,6 +199,19 @@ def employee_home(request):
         elif emp_pos == 'tl':
             return tl(request, employee)
     elif emp_level == MAN:
-        return redirect('pm/')
+        '''
+            pm: project manager,
+            hpm: head of project manager
+            tm: team manager
+            sm: sales manager
+        '''
+        if emp_pos == 'pm':
+            return redirect('pm/')
+        elif emp_pos == 'tm':
+            return redirect('tm/')
+        elif emp_pos == 'hpm':
+            return redirect('hpm/')
+        elif emp_pos == 'sm':
+            return redirect('sm/')
     elif emp_level == MD:
         return redirect('md/')

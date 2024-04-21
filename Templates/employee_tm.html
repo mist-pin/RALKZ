@@ -5,7 +5,7 @@
 <section class="">
 
 
-    <span class=" border text-decoration-underline p-1 rounded fs-1 fw-bold bg-danger">PM</span>
+    <span class=" border text-decoration-underline p-1 rounded fs-1 fw-bold bg-danger">TM</span>
 
 
     <div class="border rounded p-2 my-5 d-flex flex-column">
@@ -37,6 +37,72 @@
         <a href="" class="btn btn-outline-secondary w-25 align-self-center ">request job resign</a>
     </div>
 {% comment %} end of employee details {% endcomment %}
+
+
+
+    <div class="border rounded p-2 overflow-hidden my-5 ">
+        <span class="h1">Teams</span>
+        <input class=" float-end " type="text" placeholder="search">
+        {% if data.teams %}
+            {% for name, team in  data.teams.items%}
+                <span class="h3 d-block text-decoration-underline ms-3 ">{{name}} : </span>
+                <table  class="table ms-5 ">
+                    <tr>
+                        <th>emp-id</th>
+                        <th>position</th>
+                        <th>points</th>
+                        <th>action</th>
+                    </tr>
+                    {% for employee in team %}
+                        <tr>
+                            <td><a href="/emp/acc/{{employee.employee_id}}">{{employee.employee_id}}</a></td>
+                            <td>{{employee.employee_pos}}</td>
+                            <td>not implemented</td>
+                            <td><a href="" class="btn btn-secondary">manage</a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endfor %}
+        {% else %}
+            <i class="h5 text-center d-block m-2 text-decoration-line-through ">No teams yet.</i>
+            <div class="d-flex flex-column">
+                <hr class="w-75 align-self-center ">
+            </div>
+        {% endif %}
+    </div>
+    {% comment %} end of teams list{% endcomment %}
+
+
+
+    <div class="border rounded p-2 overflow-hidden my-5 ">
+        <span class="h1 d-block ">Aspirants :</span>
+        {% if  data.aspirants%}
+            <table  class="table ms-5 ">
+                <tr>
+                    <th>sn</th>
+                    <th>user-id</th>
+                    <th>resume</th>
+                    <th>id-proof</th>
+                    <th>action</th>
+                </tr>
+                {% for user in data.aspirants %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{user.id}}</td>
+                        <td> <a href="{{user.resume.url}}/">{{user.resume}}</a> </td>
+                        <td> <a href="{{user.identity_proof.url}}/">{{user.identity_proof}}</a> </td>
+                        <td><a href="" class="btn btn-secondary">manage</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+        <i class="h5 text-center d-block m-2 text-decoration-line-through ">No aspirants for now</i>
+        <div class="d-flex flex-column">
+            <hr class="w-75 align-self-center ">
+        </div>
+        {% endif %}
+    </div>
+    {% comment %} end of aspirants list {% endcomment %}
 
 
 

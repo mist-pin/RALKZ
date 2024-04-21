@@ -1,0 +1,98 @@
+{% extends "outline.html" %}
+{% load static %}
+{% block body %}
+
+<section class="">
+
+
+
+    <div class="border rounded p-2 my-5 d-flex flex-column">
+        <span class="h1 d-block"> Employee Details </span>
+        <div class="ms-3">
+            <span class="h3 d-block text-decoration-underline ">Salary :</span>
+            {% if data.salary %}
+            <table class='table '>
+                <tr>
+                    <th>s.n</th>
+                    <th>date</th>
+                    <th>amount</th>
+                    <th>project</th>
+                </tr>
+                {% for sal in data.salary %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{sal.date}}</td>
+                        <td>{{sal.amount}}</td>
+                        <td>{{sal.project}}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            <i class="h5 text-center d-block m-2 text-decoration-line-through ">There are no salary recordes yet</i>
+            <div class="d-flex flex-column">
+                <hr class="w-75 align-self-center ">
+            </div>
+            {% endif %}
+        </div>
+        <a href="" class="btn btn-outline-secondary w-25 align-self-center ">request job resign</a>
+    </div>
+    {% comment %} end of employee details {% endcomment %}
+
+
+
+    <div class="border rounded p-2 ">
+        <span class="h1 d-block mb-3 ">Team Details ("{{data.team_name}}")</span>
+        <div class="ms-3 mb-5 ">
+            <span class="h3 d-block text-decoration-underline">Team members :</span>
+            <table class="table">
+                <tr>
+                    <th>s.n</th>
+                    <th>join_date</th>
+                    <th>emp_position</th>
+                    <th>employee</th>
+                    <th>duty of the day</th>
+                </tr>
+                {% for em in data.team_members %}
+                    <tr class"row">
+                        <td>{{forloop.counter}}</td>
+                        <td>{{em.date}}</td>
+                        <td>{{em.emp_position}}</td>
+                        <td><a href="/emp/account/{{em.employee.employee_id}}">{{em.employee.employee_id}}</a></td>
+                        <td><input type="text"></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div class="ms-3">
+            <span class="h3 d-block text-decoration-underline">Team projects :</span>
+            {% if data.salary %}
+            <table class='table '>
+                <tr>
+                    <th>s.n</th>
+                    <th>project</th>
+                    <th>current</th>
+                </tr>
+                {% for proj in data.team_projects %}
+                    <tr>
+                        <td>{{proj.counter}}</td>
+                        <td>{{proj.project}}</td>
+                        {% if proj.current_project %}
+                            <td>current</td>
+                        {% else %}
+                            <td>-</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            <i class="h5 text-center d-block m-2 text-decoration-line-through ">There are no Project recordes yet</i>
+            {% endif %}
+        </div>
+    </div>
+    {% comment %} end of team details {% endcomment %}
+
+
+
+</section>
+{% endblock body %}

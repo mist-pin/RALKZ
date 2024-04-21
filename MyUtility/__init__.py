@@ -60,8 +60,7 @@ def add_employee(user_name, emp_team, emp_position, emp_level=4):
         '''
         import datetime
         year = str(datetime.datetime.now().year)[2:]
-        prev_emp = Employee.objects.order_by('join_date')
-
+        prev_emp = Employee.objects.all().order_by('-employee_id')
         emp_count = '0001'
         if prev_emp.exists():
             prev_emp = prev_emp[0]

@@ -5,7 +5,7 @@
 <section class="">
 
 
-    <span class=" border text-decoration-underline p-1 rounded fs-1 fw-bold bg-danger">PM</span>
+    <span class=" border text-decoration-underline p-1 rounded fs-1 fw-bold bg-danger">HPM</span>
 
 
     <div class="border rounded p-2 my-5 d-flex flex-column">
@@ -77,6 +77,43 @@
     </div>
     {% comment %} end of orders list {% endcomment %}
 
+
+
+    <div class="border rounded p-2 overflow-hidden my-5">
+        <span class="h1">Finance :</span>
+        <div class="float-end">
+            <button class="btn btn-secondary">income/expence</button>
+            <input type="text" placeholder="search">
+        </div>
+        {% if data.finance %}
+            <table  class="table ms-5 ">
+                <tr>
+                    <th>sn</th>
+                    <th>date</th>
+                    <th>account</th>
+                    <th>income/expence</th>
+                    <th>from</th>
+                    <th>to</th>
+                    <th>amount</th>
+                </tr>
+                {% comment %} <tr>
+                    <td>1</td>
+                    <td>12/2/2024</td>
+                    <td>salary</td>
+                    <td>expence</td>
+                    <td>ralkz</td>
+                    <td>asdf-@</td>
+                    <td>1000</td>
+                </tr> {% endcomment %}
+            </table>
+        {% else %}
+            <i class="h5 text-center d-block m-2 text-decoration-line-through ">No transaction records yet</i>
+            <div class="d-flex flex-column">
+                <hr class="w-75 align-self-center ">
+            </div>
+        {% endif %}
+    </div>
+    {% comment %} finance {% endcomment %}
 
 
 </section>
