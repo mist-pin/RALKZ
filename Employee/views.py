@@ -7,6 +7,8 @@ from Home.models import Aspirants, Income, Project
 from django.contrib import messages
 from MyUtility import *
 
+from django.http import JsonResponse
+import json
 
 # employee
 @login_required
@@ -84,12 +86,68 @@ def hpm(request, **kwrgs):
 def tm(request, **kwrgs):
     '''
         > his salary
-        > team -> team name, employees link, employees points, team points
-        > projects -> project name link, points per project, current project indication
-        > job -> define one day work, allocate work for employees
-        >
+        > team ->   all teams and team scores only.
+        > orders -> orders verified and approved by sm and hpm.
+        > duties:
+            > review aspirants and let md hire or reject employee
+            > assign teams for new projects
     '''
-    return render(request, 'employee_tm.html')
+
+    if request.method == 'PUT':
+        # info: this is for team manager verification
+        # info: this is to set the aplication status and candidate summary
+        '''
+            get_data: aspirant name, status, summery of candidate
+            save the data in databas.
+        '''
+        try:
+            data = json.loads(request.body)
+            aspirant_id = data.get('aspirant_id') or None
+            status = data.get('status') or ''
+            summery = data.get('summery') or ''
+            aspirant = Aspirants.objects.get(user__username=aspirant_id)
+            aspirant.application_status = status
+            aspirant.aspirant_character_by_tm = summery
+            aspirant.tm_verified = True
+            aspirant.save()
+            return JsonResponse({'input': status}, status=200)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+
+    if request.method == "POST":
+        # info: set the project team attribute for the projects
+        proj = Project.objects.get(project_name=request.POST.get('project'))
+        proj.project_team = request.POST.get('group')
+        proj.save()
+        print(proj.project_team)
+        return redirect('/emp/tm/')
+
+    user = get_user(request)
+    employee = Employee.objects.get(user_name = user)
+
+    team_data = Team.objects.all()
+    teams = {}
+    team_projs={}
+    for team in team_data.values('team_name').distinct():
+        team_emps = []
+        for employee_obj in team_data.filter(team_name=team.get('team_name')):
+            emp = {'employee_id': employee_obj.employee_id,
+                   'employee_pos': EmployeePosition.objects.filter(employee=Employee.objects.get(employee_id = employee_obj.employee_id)).order_by('-date')[0].position,
+                   }
+            team_emps.append(emp)
+        teams[team.get('team_name')] = team_emps
+        team_projs[team.get('team_name')] = Project.objects.filter(project_team=team.get('team_name'))
+        print(team_projs.get('alpha'))
+    data = {
+        'salary':  Salary.objects.filter(employee = employee),
+        'teams' : teams,
+        'team_projs': team_projs,
+        'aspirants': Aspirants.objects.all().filter(user__is_employee = False),
+        'fresh_orders':Project.objects.all().order_by('ordered_date').filter(project_team=None),
+        'orders':Project.objects.all().order_by('ordered_date'),
+        'finance': Income.objects.all().order_by('time'),
+    }
+    return render(request, 'employee_tm.html', {'data':data})
 
 
 # sales manager
@@ -193,6 +251,7 @@ def employee_home(request):
     emp_pos_obj = EmployeePosition.objects.filter(employee = employee).order_by('-date')[0]
     emp_level = emp_pos_obj.emp_level
     emp_pos = emp_pos_obj.position
+    print('*'*20,  emp_level, MD)
     if emp_level == EMP:
         if emp_pos == 'emp':
             return emp(request, employee)

@@ -8,6 +8,226 @@
     <span class=" border text-decoration-underline p-1 rounded fs-1 fw-bold bg-danger">TM</span>
 
 
+
+    <div class="border rounded p-2 overflow-hidden my-5 ">
+        <span class="h1">New Orders:</span>
+        <input class=" float-end " type="text" placeholder="search">
+        {% if data.fresh_orders %}
+            <table  class="table ms-5 ">
+                <tr>
+                    <th>sn</th>
+                    <th>order-name</th>
+                    <th>user-id</th>
+                    <th>ordered-date</th>
+                    <th>init-date</th>
+                    <th>finished-date</th>
+                    <th>team</th>
+                    <th>action</th>
+                </tr>
+                {% for order in  data.fresh_orders%}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td><a href="/orders/oid/{{order.project_name}}">{{order.project_name}}</a></td>
+                        <td>{{order.owner}}</td>
+                        <td>{{order.ordered_date}}</td>
+                        <td>{{order.project_init_date}}</td>
+                        <td>{{order.project_finish_date}}</td>
+                        {% if order.project_team%}
+                            <td>{{order.project_team}}</td>
+                        {% else %}
+                            <td>
+                                <div class="dropdown">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                      set_team
+                                    </a>
+
+                                    <ul class="dropdown-menu">
+                                        {% for t in  data.teams%}
+                                        <li>
+                                            <form action="/emp/tm/" method="POST">
+                                                    {% csrf_token %}
+                                                    <input class="d-none" name="project" value={{order.project_name}} >
+                                                    <button class="btn dropdown-item p-2 " name="group" value={{t}} type="Submit">{{t}}</button>
+                                                </form>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                  </div>
+                            </td>
+                        {% endif %}
+                        <td><a href="" class="btn btn-secondary">manage</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <i class="h5 text-center d-block m-2 text-decoration-line-through ">No orders yet</i>
+            <div class="d-flex flex-column">
+                <hr class="w-75 align-self-center ">
+            </div>
+        {% endif %}
+    </div>
+    {% comment %} end of orders list {% endcomment %}
+
+
+
+    <div class="border rounded p-2 overflow-hidden my-5 ">
+        <span class="h1 d-block ">Aspirants :</span>
+        {% if  data.aspirants%}
+            <div class="accordion" id="accordionExample">
+                {% for user in data.aspirants %}
+                    <div class="accordion-item ">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_{{forloop.counter}}" aria-expanded="false" aria-controls="collapse_{{forloop.counter}}">
+                            {{user.user}}
+                            </button>
+                        </h2>
+                        <div id="collapse_{{forloop.counter}}" class="accordion-collapse collapse " data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="border rounded"></div>
+                                    <span class="d-block mb-4 ">user-id : <a href="/profile/{{user.user}}">{{user.user}}</a></span>
+                                    <span class="d-block mb-4 ">resume : <a href="{{user.resume.url}}/">{{user.resume}}</a></span>
+                                    <span class="d-block mb-4 ">id-proof : <a href="{{user.identity_proof.url}}/">{{user.identity_proof}}</a></span>
+                                    {% if not user.tm_verified%}
+                                    <span class="d-block mb-4 ">set status :
+                                        <input id="application_status" type="text"></span>
+                                    </span>
+                                    <span class="d-block">summery of the candidate:</span>
+                                    <textarea name="" id="candidate_summery" cols="30" rows="5"></textarea>
+                                    {% else %}
+                                        <span class="d-block mb-4 ">application_status : {{user.application_status}}</span>
+                                        <span class="d-block mb-4 ">applicant character : {{user.aspirant_character_by_tm}}</span>
+                                    {% endif %}
+                                    <span class="d-block mb-4 ">
+                                        ask for further information:
+                                        <a href="#" class="btn btn-secondary">message</a>
+                                        <a href="#" class="btn btn-secondary">mail</a>
+                                    </span>
+                                </div>
+                                {% if not user.tm_verified%}
+                                    <div class="d-flex justify-content-center mb-4 ">
+                                        <button class="btn btn-primary " onclick="save_aspirant_data('{{user.user}}')" >save</button>
+                                    </div>
+                                {% else %}
+                                    <div class="d-flex justify-content-center mb-4 ">
+                                        <span>verified by team manager</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+        <i class="h5 text-center d-block m-2 text-decoration-line-through ">No aspirants for now</i>
+        <div class="d-flex flex-column">
+            <hr class="w-75 align-self-center ">
+        </div>
+        {% endif %}
+
+        <script>
+            function save_aspirant_data(aspirant_id) {
+                const status = document.getElementById('application_status').value;
+                const summery = document.getElementById('candidate_summery').value;
+                const data = {
+                    status: status,
+                    summery : summery,
+                    aspirant_id: aspirant_id
+                };
+                console.log(data)
+
+                const options = {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify(data)
+                };
+                fetch('http://127.0.0.1:8000/emp/tm/', options)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        const status = document.getElementById('application_status').value = "";
+                        const summery = document.getElementById('candidate_summery').value = "";
+                    })
+                    .catch(error => {
+                        console.error('Error sending data:', error);
+                });
+            }
+
+        </script>
+    </div>
+    {% comment %} end of aspirants list {% endcomment %}
+
+
+
+    <div class="border rounded p-2 overflow-hidden my-5 ">
+        <span class="h1">Teams</span>
+        <input class=" float-end " type="text" placeholder="search">
+        {% if data.teams %}
+        {% for name, team in  data.teams.items%}
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{forloop.counter}}" aria-expanded="false" aria-controls="flush-collapse{{forloop.counter}}">
+                        <span class="h3 text-decoration-underline ms-3 ">{{name}} : </span><span class="fs-6 text-decoration-none ">(team_score : )</span>
+                    </button>
+                </h2>
+                <div id="flush-collapse{{forloop.counter}}" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                    {% if data.team_projs %}
+                        {% if data.team_projs.name %}
+                            <table  class="table ms-5 ">
+                                <tr>
+                                    <th>sn</th>
+                                    <th>order-name</th>
+                                    <th>user-id</th>
+                                    <th>ordered-date</th>
+                                    <th>init-date</th>
+                                    <th>finished-date</th>
+                                    <th>team</th>
+                                    <th>action</th>
+                                </tr>
+                                {% for order in  data.team_projs.name%}
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <td><a href="/orders/oid/{{order.project_name}}">{{order.project_name}}</a></td>
+                                    <td>{{order.owner}}</td>
+                                    <td>{{order.ordered_date}}</td>
+                                    <td>{{order.project_init_date}}</td>
+                                    <td>{{order.project_finish_date}}</td>
+                                    <td>{{order.project_team}}</td>
+                                    <td><a href="" class="btn btn-secondary">manage</a></td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        {% else %}
+                            <span>no projects</span>
+                        {% endif %}
+                    {% else %}
+                        <i class="h5 text-center d-block m-2 text-decoration-line-through ">No orders yet</i>
+                        <div class="d-flex flex-column">
+                            <hr class="w-75 align-self-center ">
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <i class="h5 text-center d-block m-2 text-decoration-line-through ">No teams yet.</i>
+        <div class="d-flex flex-column">
+            <hr class="w-75 align-self-center ">
+        </div>
+        {% endif %}
+    </div>
+    {% comment %} end of teams list{% endcomment %}
+
+
+
     <div class="border rounded p-2 my-5 d-flex flex-column">
         <span class="h1 d-block">Salary :</span>
         <span>salary of the managing director</span>
@@ -36,114 +256,25 @@
         {% endif %}
         <a href="" class="btn btn-outline-secondary w-25 align-self-center ">request job resign</a>
     </div>
-{% comment %} end of employee details {% endcomment %}
+    {% comment %} end of employee details {% endcomment %}
 
 
-
-    <div class="border rounded p-2 overflow-hidden my-5 ">
-        <span class="h1">Teams</span>
-        <input class=" float-end " type="text" placeholder="search">
-        {% if data.teams %}
-            {% for name, team in  data.teams.items%}
-                <span class="h3 d-block text-decoration-underline ms-3 ">{{name}} : </span>
-                <table  class="table ms-5 ">
-                    <tr>
-                        <th>emp-id</th>
-                        <th>position</th>
-                        <th>points</th>
-                        <th>action</th>
-                    </tr>
-                    {% for employee in team %}
-                        <tr>
-                            <td><a href="/emp/acc/{{employee.employee_id}}">{{employee.employee_id}}</a></td>
-                            <td>{{employee.employee_pos}}</td>
-                            <td>not implemented</td>
-                            <td><a href="" class="btn btn-secondary">manage</a></td>
-                        </tr>
-                    {% endfor %}
-                </table>
-            {% endfor %}
-        {% else %}
-            <i class="h5 text-center d-block m-2 text-decoration-line-through ">No teams yet.</i>
-            <div class="d-flex flex-column">
-                <hr class="w-75 align-self-center ">
-            </div>
-        {% endif %}
-    </div>
-    {% comment %} end of teams list{% endcomment %}
-
-
-
-    <div class="border rounded p-2 overflow-hidden my-5 ">
-        <span class="h1 d-block ">Aspirants :</span>
-        {% if  data.aspirants%}
-            <table  class="table ms-5 ">
-                <tr>
-                    <th>sn</th>
-                    <th>user-id</th>
-                    <th>resume</th>
-                    <th>id-proof</th>
-                    <th>action</th>
-                </tr>
-                {% for user in data.aspirants %}
-                    <tr>
-                        <td>{{forloop.counter}}</td>
-                        <td>{{user.id}}</td>
-                        <td> <a href="{{user.resume.url}}/">{{user.resume}}</a> </td>
-                        <td> <a href="{{user.identity_proof.url}}/">{{user.identity_proof}}</a> </td>
-                        <td><a href="" class="btn btn-secondary">manage</a></td>
-                    </tr>
-                {% endfor %}
-            </table>
-        {% else %}
-        <i class="h5 text-center d-block m-2 text-decoration-line-through ">No aspirants for now</i>
-        <div class="d-flex flex-column">
-            <hr class="w-75 align-self-center ">
-        </div>
-        {% endif %}
-    </div>
-    {% comment %} end of aspirants list {% endcomment %}
-
-
-
-    <div class="border rounded p-2 overflow-hidden my-5 ">
-        <span class="h1">Orders :</span>
-        <input class=" float-end " type="text" placeholder="search">
-        {% if data.orders %}
-            <table  class="table ms-5 ">
-                <tr>
-                    <th>sn</th>
-                    <th>order-name</th>
-                    <th>user-id</th>
-                    <th>ordered-date</th>
-                    <th>init-date</th>
-                    <th>finished-date</th>
-                    <th>team</th>
-                    <th>action</th>
-                </tr>
-                {% for order in  data.orders%}
-                    <tr>
-                        <td>{{forloop.counter}}</td>
-                        <td>{{order.project_name}}</td>
-                        <td>{{order.owner}}</td>
-                        <td>{{order.ordered_date}}</td>
-                        <td>{{order.project_init_date}}</td>
-                        <td>{{order.project_finish_date}}</td>
-                        <td>{{order.project_team}}</td>
-                        <td><a href="" class="btn btn-secondary">manage</a></td>
-                    </tr>
-                {% endfor %}
-            </table>
-        {% else %}
-            <i class="h5 text-center d-block m-2 text-decoration-line-through ">No orders yet</i>
-            <div class="d-flex flex-column">
-                <hr class="w-75 align-self-center ">
-            </div>
-        {% endif %}
-    </div>
-    {% comment %} end of orders list {% endcomment %}
-
-
-
+    <script>
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Check if the cookie name matches the specified name
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
 </section>
 {% endblock body %}

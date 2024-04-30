@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user
+from Employee.models import Employee, EmployeePosition
 from Home.models import Aspirants, Project
 from Auth.models import RalkzUser
+from MyUtility import EMP, MAN, MD
 
 
 def home(request):
@@ -44,10 +46,15 @@ def apply_job(request):
 
 
     if request.method == "POST":
-        resume = request.POST.get('resume',False)
-        identity = request.POST.get('identity',False)
-        experience = request.POST.get('experience',False)
-        study = request.POST.get('study',False)
+        # resume = request.POST.get('resume',False)
+        print(request.FILES,"*"*20)
+        resume = request.FILES['resume'] or False
+        # identity = request.POST.get('identity',False)
+        identity = request.FILES['identity'] or False
+        # experience = request.POST.get('experience',False)
+        experience = request.FILES['experience'] or False
+        # study = request.POST.get('study',False)
+        study = request.FILES['study'] or False
         if not any([resume, identity, study]):
             messages.warning(request, 'all fields excluding work experience proof are mandatory')
             return redirect('/career/apply/')
@@ -150,7 +157,7 @@ def _404(request, exception):
 @login_required
 def project(request, **kwrgs):
     '''
-        > it shows the perticular project details of the requested project if the project is of the logged-in user
+        > it shows the perticular project details of the requested project if the project is of the logged-in user or if user is manager or md
         > the project details:
                 > name
                 > description
@@ -162,7 +169,14 @@ def project(request, **kwrgs):
     '''
     project_name = kwrgs['project_id']
     user = get_user(request)
-    proj = Project.objects.filter(owner=user, project_name = project_name)
+    emp_level = EMP
+    if user.is_employee:
+        emp_level = EmployeePosition.objects.filter(employee = Employee.objects.get(user_name=user)).order_by('-date')[0].emp_level
+        print("&"*20, emp_level)
+    if emp_level in [MD, MAN]:
+        proj = Project.objects.filter(project_name = project_name)
+    else:
+        proj = Project.objects.filter(owner=user, project_name = project_name)
     if not proj.exists():
         messages.error(request, f'The requested project doesn\'t exist under the user "{user.username}"')
         return redirect('/orders')

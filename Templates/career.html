@@ -2,7 +2,7 @@
 <section class="faq-body-section">
     {% if  data.application_status%}
         <span class="h3">application status: {{data.application_status}}</span>
-    {% else %}  
+    {% else %}
         <span class="h1 d-block text-decoration-underline m-0">How the company works?</span>
         <p>We are a team of students pursuing computer degree from different parts of Karnataka.
             We do freelancing to fulfill the customer needs in getting their social platforms popular by developing best websites and apps as for their needs.
@@ -22,7 +22,7 @@
             <li>wait for confirmation mail</li>
         </ul></p>
         {% if data.form %}
-            <form class="w-auto bg-body d-flex flex-column" method="POST" action="/career/apply/">
+            <form class="w-auto bg-body d-flex flex-column" method="POST" action="/career/apply/" enctype="multipart/form-data">
                     {% csrf_token %}
                     <span class="h3 text-decoration-underline ">Personal details</span>
                     <div class="border border-end-0 border-bottom-0 rounded-bottom-0 rounded mb-3 shadow-lg p-4 d-flex flex-column ">

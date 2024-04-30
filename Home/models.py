@@ -26,10 +26,12 @@ class Aspirants(models.Model):
     application_status = models.CharField(max_length=20, default='submitted')
     submission_date = models.DateTimeField(auto_now=True)
     application_final_verified_date = models.DateField(null=True)  # hired or rejected date
-    resume = models.FileField(upload_to="resume/%Y/", max_length=200)
-    identity_proof = models.FileField(upload_to="identity/%Y/", max_length=200)
-    study_certificate = models.FileField(upload_to="study_certificate/%Y/", max_length=200)
-    experience_proof = models.FileField(upload_to="experience_proof/%Y/", max_length=200, null=True)
+    resume = models.FileField(upload_to="resume/", max_length=200)
+    identity_proof = models.FileField(upload_to="identity/", max_length=200)
+    study_certificate = models.FileField(upload_to="study_certificate/", max_length=200)
+    experience_proof = models.FileField(upload_to="experience_proof/", max_length=200, null=True)
+    aspirant_character_by_tm = models.TextField(null=True)
+    tm_verified = models.BooleanField(default=False)
 
 class Income(models.Model):
     id = models.SmallAutoField(primary_key=True)

@@ -1,0 +1,65 @@
+flow chart
+
+order:
+    > CUSTOMER
+        (
+            orders a project
+        )
+    > HEAD OF PROJECT MANAGERS - HPM
+        (
+            evaluate customer,
+            set max time project will take,
+            set scrap resources needed,
+            set signal like good to go or not.
+        )
+    > SALES MANAGER - SM
+        (
+            set expected cost for project,
+            set the profit that can be aquired,
+            set the total income and expences automatically with the above details,
+            set the a range as advance, to be collected.
+        )
+    > MANAGING DIRECTOR - MD
+        (
+            review the analysis.
+            accept or deny the order.
+        )
+    > HEAD OF PROJECT MANAGERS - HPM
+        (
+            talk to client,
+            tell the time and the cost it takes,
+            if accepted, assign PM for the project, do first level requirement analysis,
+            else if askes some time set the status to pending,
+            else set the status discontinued by the customer,
+        )
+    > PROJECT MANAGER - PM
+        (
+            analyze project,
+            requirement analysis,
+            set ui content schema,
+            set database structure,
+            pass to TM.
+        )
+    > TEAM MANAGER - TM
+        (
+            evaluete the easeness of the project,
+            select a team for this project.
+        )
+    > TEAM LEADER - TL
+        (
+            initiate git repository,
+            set per day work topics,
+            plan ui structure, technologies used, testings, etc,
+            set per employee work topic every day.
+            check employees working or not viewing git code.
+            in case of doubt ask PM,
+            create documents needed for product submission,
+            submit final project to PM
+        )
+    > PROJECT MANAGER - PM
+        (
+            host the project,
+            user end checkup,
+            get the payment done.
+            then give the admin user access.
+        )
